@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💖</title>
+
+  <!-- Cute fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Love Ya Like A Sister', 'Gloria Hallelujah', cursive;
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(135deg, #ffe6f0, #ff99cc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Gloria Hallelujah', cursive;
+      font-size: 2.2em;
+      color: #ff0066;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 8px #ffb3d9;
+      padding: 0 10px;
+      transition: opacity 0.5s ease;
+    }
+
+    button {
+      font-family: 'Love Ya Like A Sister', cursive;
+      font-size: 1.3em;
+      padding: 12px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 100px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    #yesBtn {
+      background-color: #ff66b3;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    #noBtn {
+      background-color: #ffccff;
+      color: #ff0066;
+      position: absolute;
+      min-width: 100px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #message {
+      margin-top: 40px;
+      font-size: 2em;
+      color: #ff0066;
+      display: none;
+      padding: 0 10px;
+      text-shadow: 2px 2px 8px #ffb3d9;
+      font-family: 'Love Ya Like A Sister', cursive;
+      transition: opacity 1s ease;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Floating hearts & tulips */
+    .floating {
+      position: absolute;
+      font-size: 1.5em;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-50vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Bear GIF */
+    .bear {
+      position: absolute;
+      width: 200px;
+      max-width: 30%;
+      height: auto;
+      pointer-events: none;
+      animation: begging 3s infinite alternate ease-in-out;
+      z-index: 5;
+    }
+
+    @keyframes begging {
+      0% { transform: translate(0,0) rotate(0deg); }
+      25% { transform: translate(80px,-30px) rotate(5deg); }
+      50% { transform: translate(-60px,-50px) rotate(-5deg); }
+      75% { transform: translate(50px,-20px) rotate(5deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    @keyframes dancing {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      25% { transform: translate(30px,-20px) rotate(15deg); }
+      50% { transform: translate(-30px,-40px) rotate(-15deg); }
+      75% { transform: translate(20px,-20px) rotate(15deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8em; }
+      button { font-size: 1.1em; padding: 10px 20px; }
+      #message { font-size: 1.6em; }
+      .floating { font-size: 1.2em; }
+      .bear { width: 120px; }
+    }
+
+  </style>
+</head>
+<body>
+  <h1 id="question">Will you be my Valentine? 💕</h1>
+  <button id="yesBtn">YES</button>
+  <button id="noBtn">NO</button>
+  <div id="message">I LOVE YOU SOOOOOOOOO MUCH PO MRS. SISTOSO ☺️💕🌷</div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const question = document.getElementById('question');
+
+    // Add bear
+    const bear = document.createElement('img');
+    bear.src = 'https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif';
+    bear.className = 'bear';
+    document.body.appendChild(bear);
+
+    // Move bear randomly every 2s
+    function moveBear() {
+      const maxX = window.innerWidth - bear.offsetWidth;
+      const maxY = window.innerHeight - bear.offsetHeight - 50;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      bear.style.left = x + 'px';
+      bear.style.top = y + 'px';
+    }
+    setInterval(moveBear, 2000);
+
+    // NO button dodge
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 10;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 10;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('touchstart', moveNoButton);
+
+    // Floating hearts/tulips
+    const emojis = ["💕","🌷"];
+    function createFloating() {
+      const span = document.createElement('span');
+      span.className = 'floating';
+      span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      span.style.left = Math.random() * 100 + 'vw';
+      span.style.fontSize = 20 + Math.random()*20 + 'px';
+      span.style.animationDuration = 5 + Math.random()*5 + 's';
+      document.body.appendChild(span);
+      setTimeout(() => span.remove(), 8000);
+    }
+    setInterval(createFloating, 300);
+
+    // YES button click
+    yesBtn.addEventListener('click', () => {
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none';
+      question.style.opacity = '0';
+      setTimeout(() => {
+        question.style.display = 'none';
+        message.style.display = 'block';
+      }, 500);
+      bear.style.animation = 'dancing 1.2s infinite';
+    });
+  </script>
+</body>
+</html>
